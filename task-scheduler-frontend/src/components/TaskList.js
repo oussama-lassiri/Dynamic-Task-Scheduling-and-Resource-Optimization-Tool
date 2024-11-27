@@ -4,7 +4,7 @@ import { Trash2, CheckSquare, XSquare } from 'lucide-react';
 
 const TaskList = ({ onTaskUpdate  }) => {
     const [tasks, setTasks] = useState([]);
-    const [filter, setFilter] = useState('all');
+    const [filter, setFilter] = useState('All');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
   
@@ -45,15 +45,17 @@ const TaskList = ({ onTaskUpdate  }) => {
       }
     };
 
-    const getFilteredTasks = tasks.filter((task) =>{
-      if (filter === 'All') return true;
+    const getFilteredTasks = () =>{
+      return tasks.filter((task) => {
+        if (filter === 'All') return true;
 
-      const taskStatus = task.status.trim().toLowerCase();
-      const filterStatus = filter.trim().toLowerCase();
+        const taskStatus = task.status.trim().toLowerCase();
+        const filterStatus = filter.trim().toLowerCase();
 
-      return taskStatus === filterStatus;
+        return taskStatus = filterStatus;
+      }
+    )
     }
-    );
     
     const deleteTask = async (id) => {
       try {
@@ -75,10 +77,10 @@ const TaskList = ({ onTaskUpdate  }) => {
     if (error) return <p className="text-red-500">{error}</p>
   
     return (
-      <div>
+      <div className='p-4'>
         <h3 className="text-xl font-bold mb-4">Task List</h3>
 
-       <div className="mb-4">
+        <div className="mb-4">
           <label htmlFor="filter" className="mr-2">Filter:</label>
           <select 
             id="filter"
@@ -92,28 +94,53 @@ const TaskList = ({ onTaskUpdate  }) => {
           </select>
         </div>
 
-        <ul>
-          {getFilteredTasks.map((task) => (
-            <li key={task.id}>
+        {getFilteredTasks().length === 0 ? (<p className='text-gray-500'>No tasks available!</p>) : (
+          <ul className='space-y-2'>
+            {getFilteredTasks().map((task) => (
+              <li 
+                key={task.id}
+                className={`
+                  flex justify-between items-center p-3 border rounded
+                  ${task.status === 'Completed' ? 'bg-green-50' : 'bg-white'}
+                  `}
+                >
               <div>
-                  <strong className="mr-2">{task.title}</strong>
-                  <span className="text-gray-600">{task.description}</span>
-                  <span 
-                    className={`
-                      ml-2 px-2 py-1 rounded text-xs 
-                      ${task.status === 'Completed' ? 'bg-green-200' : 'bg-yellow-200'}
-                    `}
+                <strong className="mr-2">{task.title}</strong>
+                <span className="text-gray-600">{task.description}</span>
+                <span 
+                  className={`
+                    ml-2 px-2 py-1 rounded text-xs 
+                    ${task.status === 'Completed' ? 'bg-green-200' : 'bg-yellow-200'}
+                  `}
+                >
+                  {task.status}
+                </span>
+              </div>
+              <div>
+                <button 
+                  onClick={() => toggleTaskStatus(task.id, task.status)}
+                  className={`
+                    p-2 rounded 
+                    ${task.status === 'Pending' 
+                      ? 'bg-green-100 hover:bg-green-200' 
+                      : 'bg-yellow-100 hover:bg-yellow-200'}
+                  `}
+                  title={task.status === 'Pending' ? 'Mark as Completed' : 'Mark as Pending'}
                   >
-                    {task.status}
-                  </span>
-                </div>
-            <button onClick={() => toggleTaskStatus(task.id, task.status)}>
-              {task.status === 'Pending' ? 'Mark as completed' : 'mark as pending'}
-            </button>
-            <button onClick={() => deleteTask(task.id)}>Delete</button>
-            </li>
-          ))}
-        </ul>
+                {task.status === 'Pending' ? 'Mark as completed' : 'Mark as pending'}
+                </button>
+                <button 
+                  onClick={() => deleteTask(task.id)}
+                  className='p-2 rounded bg-red-100 hover: bg-red-200'
+                  title="Delete Task"
+                >
+                <Trash2 />
+                </button>
+              </div>
+              
+              </li>
+            ))}
+          </ul>)}
       </div>
     );
   };
