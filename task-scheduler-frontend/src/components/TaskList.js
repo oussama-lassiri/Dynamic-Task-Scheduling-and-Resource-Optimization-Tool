@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import API from '../api';
-import { Trash2, CheckSquare, XSquare } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 
 const TaskList = ({ onTaskUpdate  }) => {
     const [tasks, setTasks] = useState([]);
@@ -45,17 +45,18 @@ const TaskList = ({ onTaskUpdate  }) => {
       }
     };
 
-    const getFilteredTasks = () =>{
+    const getFilteredTasks = () => {
       return tasks.filter((task) => {
         if (filter === 'All') return true;
-
+        
+        // Trim and normalize comparison
         const taskStatus = task.status.trim().toLowerCase();
         const filterStatus = filter.trim().toLowerCase();
+        
+        return taskStatus === filterStatus;
+      });
+    };
 
-        return taskStatus = filterStatus;
-      }
-    )
-    }
     
     const deleteTask = async (id) => {
       try {

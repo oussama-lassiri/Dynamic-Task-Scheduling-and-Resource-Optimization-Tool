@@ -37,5 +37,10 @@
       "last 1 safari version"
     ]
   },
+  "devDependencies": {
+  "postcss": "^8.x.x",
+  "tailwindcss": "^3.x.x",
+  "autoprefixer": "^10.x.x"
+  },
   "proxy": "http://127.0.0.1:5000"
 }
