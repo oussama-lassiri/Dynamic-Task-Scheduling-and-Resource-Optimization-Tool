@@ -14,7 +14,7 @@ def create_task():
 @main.route('/get-tasks', methods= ['GET'])
 def get_task():
     tasks = Task.query.all()
-    return jsonify([{"id": task.id, "title": task.title, "status": task.status}for task in tasks])
+    return jsonify([{"id": task.id, "title": task.title, "description": task.description, "status": task.status}for task in tasks])
 
 @main.route('/update-task/<int:task_id>', methods=['PATCH', 'OPTIONS'])
 def update_task(task_id):

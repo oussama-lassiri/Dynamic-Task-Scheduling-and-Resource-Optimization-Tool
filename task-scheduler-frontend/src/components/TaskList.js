@@ -123,7 +123,7 @@ const TaskList = ({ onTaskUpdate  }) => {
                   className={`
                     p-2 rounded 
                     ${task.status === 'Pending' 
-                      ? 'bg-green-100 hover:bg-green-200' 
+                      ? 'bg-green-100 hover:bg-green-300' 
                       : 'bg-yellow-100 hover:bg-yellow-200'}
                   `}
                   title={task.status === 'Pending' ? 'Mark as Completed' : 'Mark as Pending'}
@@ -132,7 +132,7 @@ const TaskList = ({ onTaskUpdate  }) => {
                 </button>
                 <button 
                   onClick={() => deleteTask(task.id)}
-                  className='p-2 rounded bg-red-100 hover: bg-red-200'
+                  className='p-2 rounded bg-red-300 hover:bg-red-500'
                   title="Delete Task"
                 >
                 <Trash2 />
